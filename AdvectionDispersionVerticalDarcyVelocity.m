@@ -1,5 +1,5 @@
 D = .1;
-L = .001 % in meters
+L = .001; % in meters
 C0 = 100; % concentration at base of column (Pa)
 Cout = 0; % fixed percentage concentration leaving top of column (%)
 
