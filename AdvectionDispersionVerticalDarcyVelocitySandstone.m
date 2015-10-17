@@ -3,10 +3,10 @@ L = .01; % in meters
 C0 = 100; % concentration at base of column (Pa)
 Cout = 0; % fixed percentage concentration leaving top of column (%)
 
-rho = 2335;  % density of rock ( shale = 2335 )  (kg / m^3)
+rho = 2200;  % density of rock ( shale = 2335 )  (kg / m^3)
 g = 9.8; % m^2 / s
-eta = .05; % porosity (shale = 0.0 - 0.1) (unitless)
-K = 10^-14; % hydraulic conductivity ( shale =  10-15 to 10-13 )  ( m / s)
+eta = .2; % porosity (shale = 0.0 - 0.1) (unitless)
+K = 10^-12; % hydraulic conductivity ( shale =  10-15 to 10-13 )  ( m / s)
 
 % Pmax, pressure at the bottom of the column
 % according to Wikipedia, fracking equipment can reach up to 100 megapascals (100000000 Pa) (15,000 psi)
@@ -43,3 +43,4 @@ m = 0;
 sol = pdepe(m,pdefun,icfun,bcfun,xmesh,tspan);
 c = sol(:,:,1);
 figure; surf(xmesh,tspan,c);
+ylabel('time');
