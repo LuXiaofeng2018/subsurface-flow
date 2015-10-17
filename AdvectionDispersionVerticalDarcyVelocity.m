@@ -1,5 +1,5 @@
 D = .1;
-L = .001; % in meters
+L = .1; % in meters
 C0 = 100; % concentration at base of column (Pa)
 Cout = 0; % fixed percentage concentration leaving top of column (%)
 
@@ -14,7 +14,7 @@ K = 10^-14; % hydraulic conductivity ( shale =  10-15 to 10-13 )  ( m / s)
 Pmin = L * rho * g + 0; % minimum P at surface to avoid downward motion
 Pmax = 100000000; % some maximum P at bottom of  column
 
-timescale = 60*60*24; % size of timestep , using 1 day
+timescale = 60*60*24*365; % size of timestep , using 1 year
 
 % simulating nonlinear change in P
 %dPdX = @(x) -2 * (Pmax - Pmin) / L^2 * x;
@@ -31,16 +31,15 @@ pdefun = @(x,t,u,DuDx) deal(1, 0, - Vd(x) * DuDx);  % darcy flow only, no diffus
 icfun = @(x) 0;
 bcfun = @(xl,ul,xr,ur,t) deal(ul - C0, 0, Cout * ur, 1);
 
-x = linspace(0,L,10);
+x = linspace(0,L,30);
 
 years = 10;
 days = 365 * years;
-t = linspace(0,days,years);  % time is in days now
-
-%years = 10;
-%t = linspace(0,years*365*24*60*60,years);  % time is in seconds, convert days to seconds with a 1 day step
+t = linspace(0,years,years);  % time is in years now
 
 m = 0;
-sol = pdepe(m,pdefun,icfun,bcfun,x,t);
+%options = odeset('MaxStep', .01);
+%options = odeset('RelTol', 1e-5);
+sol = pdepe(m,pdefun,icfun,bcfun,x,t, options);
 c = sol(:,:,1);
 figure; surf(x,t,c);
